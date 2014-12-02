@@ -17,24 +17,13 @@ def make_board():
 def make_barriers():
      """ makes barriers, the stuff you run into that doesn't give you points
      """
-      
+     b1 = cylinder(pos=(7,1,2), axis=(0,1,0), radius=5, height=5, color=color.white)
+     b2 = cylinder(pos=(2,1,7), axis=(0,1,0), radius=5, height=5, color=color.white)
+     b3 = cylinder(pos=(1,1,1), axis=(0,1,0), radius=5, height=5, color=color.white)
+
 def make_bumpers():
      """ this function makes the bumpers, they should look like eyes
      """
-     b1 = cylinder(pos=(-23,1,-8), axis=(0,1,0), radius=10, length=5, color=color.white)
-
-     b1_pupil = cylinder(pos=(-23,1,-8), axis=(0,1,0), radius=3, length=5.5, color=color.black)
-
-     b2 = cylinder(pos=(23,1,-8), axis=(0,1,0), radius=10, length=5, color=color.white)
-
-     b2_pupil = cylinder(pos=(23,1,-8), axis=(0,1,0), radius=3, length=5.5, color=color.black)
-
-     b3 = cylinder(pos=(0,1,-8), axis=(0,1,0), radius=10, length=5, color=color.white)
-
-     b3_pupil = cylinder(pos=(0,1,-8), axis=(0,1,0), radius=3, length=5.5, color=color.black)
-
-     list_of_bumpers = [b1, b2, b3, b1_pupil, b2_pupil, b3_pupil]
-     return list_of_bumpers
 
 def make_launchers():
      """ makes the ball launchers, a key part of pinball
@@ -61,7 +50,6 @@ def main():
      """
      floor = make_board()
      ball = make_alien()
-     bumpers = make_bumpers()
      ball.vel = vector(0,-1,0)
      RATE = 30
      dt = 1.0/RATE
