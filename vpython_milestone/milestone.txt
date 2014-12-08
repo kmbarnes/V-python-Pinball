@@ -1,0 +1,18 @@
+Katelyn Barnes & Lauren Hu
+vPinball!
+
+Implement a rough version of pinball in vPython in the shape
+of a three-eyed alien. There should be a constant downward addition to
+the z velocity to simulate the slope of the board and slight addition
+to the total velocity of the ball for each collision with the bumpers
+to simulate the hitty things in actual pinball that hit the ball when
+a collision occurs. 
+
+The left and right arrow keys will control
+the flippers aka the alien's arms.  The ball used will be yet another
+three-eyed alien.  For the milestone, the alien ball will be 
+controlled by the arrow keys and the game is won by hitting all 
+three eyes & making them glow. For the final game the goal is to
+light up all three eyes by hitting them with the ball, player input
+will be limited to controling the flipper arms with the left and right
+arrow keys. The player loses if the ball hits the bottom of the board.
