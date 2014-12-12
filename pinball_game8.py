@@ -139,9 +139,9 @@ def main():
     ball.vel = vector(0,0,0)
     RATE = 30
     dt = 1.0/RATE
-    aR.vel = 0.0
+    aR.vel = 0.0 #vector(0,0,0)
     aR.time = 0
-    aL.vel = 0.0
+    aL.vel = 0.0 #vector(0,0,0)
     aL.time = 0
     print aR.pos, aR.axis, aR.length
     print aL.pos, aL.axis, aL.length
@@ -155,23 +155,23 @@ def main():
             aR.rotate(angle=aR.vel, axis=vector(0,1,0), origin=vector(39.5,2.5,58))
             aL.rotate(angle=aL.vel, axis=vector(0,1,0), origin=vector(-39.5,2.5,58))
             #this accounts for gravity
- #           ball.vel.z = ball.vel.z + .5*dt
+            ball.vel.z = ball.vel.z + 9.8*dt
 
             #end physics
 
             # collisions and timers
             t = time.time()
             #flipper collisions
-            if t > aR.time+.2:
-                if t < aR.time+.3:
-                    aR.vel = .28
+            if t > aR.time+.26:
+                if t < aR.time+.39:
+                    aR.vel = .32
                     #aR.time = time.time()
                 else:
                     aR.vel = 0
                     aR.pos = vector(22,2.5,58); aR.axis=vector(1,0,0); aR.length=35
-            if t > aL.time+.2:
-                if t < aL.time+.3:
-                    aL.vel = -.28
+            if t > aL.time+.26:
+                if t < aL.time+.39:
+                    aL.vel = -.32
                     #aL.time = time.time()
                 else:
                     aL.vel = 0
@@ -278,51 +278,65 @@ def main():
                     elif ball.pos.z > 60:
                         # for with actual pinball
                         #
-                        # print "Game Over!"
-                        # break
+                        #print "Game Over!"
+                        #break
                         #
                         ball.pos.z = 59.5
                         ball.vel.z = -1*ball.vel.z
                     else:
 #                        for i in range(len(hat)):
+#                           position vector
                             d0=(ball.pos - hat[0].pos)
                             #print d.x, d.z
+                            # axis of the object to be collided with
                             ax0 = hat[0].axis
  #                           rax = ax.rotate(angle=pi/2, axis=(0,1,0))
+                            # normal of the aformentioned axis
                             nax0 = norm(ax0)
 
                             d1=(ball.pos - hat[1].pos)
                             #print d.x, d.z
                             ax1 = hat[1].axis
+                            # perpendicular to the axis in question
                             nrax1 = ax1.rotate(angle=pi/2, axis=(0,1,0))
+                            #normal of axis
                             nax1 = norm(ax1)
 
                             d2=(ball.pos - hat[2].pos)
                             #print d.x, d.z
                             ax2 = hat[2].axis
                             rax2 = ax2.rotate(angle=pi/2, axis=(0,1,0))
+                            #normal of the perpendicular
                             nrax2 = norm(rax2)
                             
                             #print d.dot(nrax), d
-                            if d0.dot(nax0) < .5 and d0.dot(nax0) > -.5 :
+                            if d0.dot(nax0) < 1 and d0.dot(nax0) > -1 :
                                #print d.dot(nrax), 'hi'
                                ball.pos -= ball.vel*dt
                                ball.vel=-1*ball.vel
                               # print 'up'
-                            elif ball.pos.z < -40 and d1.dot(nrax1) < 1 and\
+                            elif ball.pos.z < -39 and d1.dot(nrax1) < 1 and\
                                  d1.dot(nrax1) > -1 :
                                ball.pos -= ball.vel*dt
                                #print d.dot(nrax), 'hi'
                                ball.vel=-1*ball.vel
                                print 'left'
                             elif ball.pos.z < -18 and \
-                                 d2.dot(nrax2) < .25 and d2.dot(nrax2) > -.25 :
+                                 d2.dot(nrax2) < 1 and d2.dot(nrax2) > -1 :
                                #print d.dot(nrax), 'hi'
                                ball.pos -= ball.vel*dt 
                                ball.vel=-1*ball.vel
                                #print'right', d2.dot(nax2)
                                
-                      
+                axR = aR.axis
+                naxR = norm(axR)
+                dR=(ball.pos - aR.pos)
+                nraxR = norm(axR.rotate(angle=pi/2, axis=(0,1,0)))
+                if ball.pos.x > 2 and \
+                     dR.dot(nraxR) < 2 and dR.dot(nraxR) > -2 :
+                   ball.pos -= ball.vel*dt 
+                   ball.vel=-1.5*ball.vel - (-.4,0,-.4)
+                   print 'pong'
 
                    
 
@@ -332,20 +346,23 @@ def main():
             if scene.kb.keys: #any keypress to be handled
                 s = scene.kb.getkey()
                 #left and right keys flap flippers!
- #               if aR.pos == vector(22,2.5,58):
-#                    if s == "right":
-#                       aR.vel = -.14
- #                       aR.time = time.time()
-#                if aL.pos == vector(-22,2.5,58):
-#                    if s == "left":
-#                        aL.vel = .14
-#                        aL.time = time.time()
+                if aR.pos == vector(22,2.5,58):
+                    if s == "right":
+                       aR.vel = -.16
+                       aR.time = time.time()
+  
+                if aL.pos == vector(-22,2.5,58):
+                    if s == "left":
+                       aL.vel = .16
+                       aL.time = time.time()
                 dx = 1; dz = 1   # easily-changeable values
-                if s == 'left': ball.vel += vector(-dx,0,0)
-                if s == 'right': ball.vel += vector(dx,0,0)
-                if s == 'up': ball.vel += vector(0,0,-3*dz)
-                if s == 'down': ball.vel += vector(0,0,dz)
-                if s == 'r': ball.pos = vector(10,2.5,-10)
+       #         if s == 'left': ball.vel += vector(-dx,0,0)
+#                if s == 'right': ball.vel += vector(dx,0,0)
+#                if s == 'up': ball.vel += vector(0,0,-3*dz)
+#                if s == 'down': ball.vel += vector(0,0,dz)
+                if s == 'r':
+                    ball.pos = vector(10,2.5,-20)
+                    ball.vel = vector(-1,0,10)
 
 
             
